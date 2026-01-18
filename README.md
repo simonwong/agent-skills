@@ -20,6 +20,16 @@ npx skills add simonwong/agent-skills
 - 保留 AI/技术专有名词（Agent、OpenAI、Claude、API 等）
 - 目标：让读者感觉是中文母语者写的文章
 
+## Rewrite Skills
+
+这里的 skills 是其他地方开源的 agent、command 等等，搬运过来作为 skills 方便其他 coding agent 使用。
+
+### code-simplifier
+
+将代码重写为更简洁、清晰、一致的代码，同时保持所有功能不变。
+
+skill 来自 [claude-plugins-official - code-simplifier](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-simplifier)
+
 ## Awesome Skills
 
 - [Superpowers](https://github.com/obra/superpowers) 是一个完整的软件开发工作流，包含了多个开发流程的 skills
