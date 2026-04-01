@@ -20,28 +20,26 @@ npx skills add simonwong/agent-skills
 - 保留 AI/技术专有名词（Agent、OpenAI、Claude、API 等）
 - 目标：让读者感觉是中文母语者写的文章
 
-## Rewrite Skills
+### Writing Toolkit（写作辅助技能组）
 
-这里的 skills 是其他地方开源的 agent、command 等等，搬运过来作为 skills 方便其他 coding agent 使用。
+一套围绕"收集 → 分析 → 创作 → 打磨"流程设计的写作辅助技能组，所有技能共享 `./writing-workspace/` 数据目录。
 
-### code-simplifier
+| 技能 | 说明 |
+|------|------|
+| style-extract | 分析文章写作风格，提取风格特征存入风格素材库，融合生成主力风格档案 |
+| material-ingest | 拆解文章提取可复用素材（观点、数据、案例、金句、类比、方法论），分类标注入库 |
+| compose | 基于主题或参考文章创作，自动检索素材库、加载主力风格，支持公众号/Twitter/小红书/博客 |
+| rewrite | 去 AI 感，按主力风格档案润色改稿，先诊断再改写 |
+| material-retrieve | 按主题、标签、类型从素材库中检索相关素材 |
+| title-gen | 为文章生成多个候选标题，覆盖不同策略类型，标注适用平台 |
 
-将代码重写为更简洁、清晰、一致的代码，同时保持所有功能不变。
+**使用流程建议：**
 
-skill 来自 [claude-plugins-official - code-simplifier](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-simplifier)
-
-## Awesome Skills
-
-- [Superpowers](https://github.com/obra/superpowers) 是一个完整的软件开发工作流，包含了多个开发流程的 skills
-  - 因为他是一组工作流，还包含了 3 个 agent，建议使用插件的方式安装
-  - `/plugin marketplace add obra/superpowers-marketplace`
-  - `/plugin install superpowers@superpowers-marketplace`
-- [anthropics/skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator): 用于创建技能的技能。
-  - `npx kills add anthropics/skills`（他会拉去所有的技能，需要自己选择）
-- [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files): 像 Manus 一样工作，将负责任务的计划、研究的过程结果存在文件中。
-  - `npx skills add OthmanAdi/planning-with-files`
-- [PleasePrompto/notebooklm-skill](https://github.com/PleasePrompto/notebooklm-skill): 可以跟 NotebookLM 连接的 skill，把 NotebookLM 当作 RAG
-  - `npx skills add PleasePrompto/notebooklm-skill`
+1. 用 `style-extract` 分析 3-5 篇文章建立主力风格
+2. 用 `material-ingest` 积累素材库
+3. 用 `compose` 创作文章
+4. 用 `rewrite` 润色去 AI 感
+5. 用 `title-gen` 生成标题
 
 ## Find Me
 
