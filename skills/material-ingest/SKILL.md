@@ -4,7 +4,7 @@ description: 拆解文章，提取可复用的素材（观点、数据、案例�
 license: MIT
 metadata:
   author: simonwong
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # 素材拆解入库

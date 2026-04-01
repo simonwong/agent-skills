@@ -4,7 +4,7 @@ description: 基于主题或参考文章进行中文创作。自动检索素材�
 license: MIT
 metadata:
   author: simonwong
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # 创作

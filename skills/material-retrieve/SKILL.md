@@ -4,7 +4,7 @@ description: 从素材库中按主题、标签、类型检索可复用的写作�
 license: MIT
 metadata:
   author: simonwong
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # 素材检索

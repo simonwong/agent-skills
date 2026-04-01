@@ -4,7 +4,7 @@ description: 分析文章的写作风格特征，提取风格维度存入风格�
 license: MIT
 metadata:
   author: simonwong
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # 风格提取
