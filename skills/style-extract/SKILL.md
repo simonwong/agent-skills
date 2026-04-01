@@ -4,7 +4,7 @@ description: 分析文章的写作风格特征，提取风格维度存入风格�
 license: MIT
 metadata:
   author: simonwong
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # 风格提取
@@ -87,7 +87,7 @@ writing-workspace/styles/
 3. 通读全文，理解整体风格基调
 4. 逐一分析 12 个维度，每个维度一句话概括
 5. 提炼 2-3 个最值得借鉴的具体技巧
-6. 生成风格素材条目 JSON，ID 格式：`sty_YYYYMMDD_NNN`（NNN 为当日序号）
+6. 生成风格素材条目 JSON，ID 格式：`sty_YYYYMMDD_NNN`。**NNN 确定方式：取 `index.jsonl` 最后一行的 ID 序号，再列出 `entries/` 目录下当日已有的 `sty_YYYYMMDD_*.json` 文件，以两者中较大的序号 +1 作为起始编号。** 如果索引为空且当日无已有文件，才从 001 开始。
 7. 写入 `styles/entries/{id}.json`
 8. **立即更新 `styles/index.jsonl`**——在文件末尾追加一行 JSON `{id, source_title, author, analyzed_at}`。这一步不能跳过，索引是其他技能检索的入口。
 9. 向用户展示分析结果（用可读的格式，不是 raw JSON）

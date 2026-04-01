@@ -4,7 +4,7 @@ description: 拆解文章，提取可复用的素材（观点、数据、案例�
 license: MIT
 metadata:
   author: simonwong
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # 素材拆解入库
@@ -87,14 +87,17 @@ writing-workspace/materials/
 
 1. 确保 `./writing-workspace/materials/` 目录存在，不存在则创建（含 `entries/` 子目录）
 2. 如果 `index.jsonl` 不存在，创建空文件
-3. 读取现有 `index.jsonl`（逐行解析），了解已有标签和素材（用于去重和标签一致性）
+3. **读取现有数据（必须完成，不可跳过）**：
+   - Read `index.jsonl`，逐行解析，了解已有标签和素材（用于去重和标签一致性）
+   - 记住最后一行的 ID，后续用于编号
+   - 如果 `index.jsonl` 为空或不存在，用 `ls` 列出 `entries/` 目录确认是否真的没有已有数据
 4. 通读全文，理解主题和结构
 5. 按语义单元拆解，每个单元生成一条素材
 6. 为每条素材标注类型、标签、情绪、可复用程度
 7. 如果是自写模式，执行额外步骤
-8. 素材 ID 格式：`mat_YYYYMMDD_NNN`（NNN 为当日序号，从现有索引中推算）
+8. 素材 ID 格式：`mat_YYYYMMDD_NNN`。**NNN 确定方式：取 `index.jsonl` 最后一行的 ID 序号，再列出 `entries/` 目录下当日已有的 `mat_YYYYMMDD_*.json` 文件，以两者中较大的序号 +1 作为起始编号。** 如果索引为空且当日无已有文件，才从 001 开始。绝不盲目从 001 开始。
 9. 将每条素材写入 `materials/entries/{id}.json`
-10. **立即更新 `materials/index.jsonl`**——在文件末尾追加每条新素材的摘要，每条一行 JSON `{id, summary, tags, type, source_title, reusability}`。索引是检索的入口，这一步不能跳过。
+10. **立即更新 `materials/index.jsonl`**——先 Read 当前文件的完整内容，然后在末尾追加新条目。**禁止用 Create/Write 工具从零重写整个文件；必须保留已有内容，只追加新行。** 每条一行 JSON `{id, summary, tags, type, source_title, reusability}`。索引是检索的入口，这一步不能跳过。
 11. 向用户展示入库报告
 
 ## 素材条目 JSON 结构
