@@ -14,16 +14,16 @@ metadata:
 ## 数据路径
 
 素材库位于 `./writing-workspace/materials/`：
-- `index.json` — 素材索引（每条包含 id, summary, tags, type, source_title, reusability）
+- `index.jsonl` — 素材索引（JSONL 格式，每行一条 {id, summary, tags, type, source_title, reusability}）
 - `entries/{id}.json` — 素材完整内容
 
 ## 执行流程
 
 ### 1. 读取索引
 
-读取 `./writing-workspace/materials/index.json`。
+读取 `./writing-workspace/materials/index.jsonl`。
 
-- 如果文件不存在或为空数组：告诉用户"素材库还是空的，可以用 material-ingest 技能先入库一些文章。"然后结束。
+- 如果文件不存在或为空：告诉用户"素材库还是空的，可以用 material-ingest 技能先入库一些文章。"然后结束。
 - 如果有内容：继续检索。
 
 ### 2. 解析用户查询
@@ -42,7 +42,7 @@ metadata:
 
 ### 3. 多维匹配
 
-遍历 index.json 中的所有条目，按以下逻辑匹配：
+遍历 index.jsonl 中的所有条目，按以下逻辑匹配：
 
 **关键词匹配**（模糊）：
 - 检查 summary 和 tags 中是否包含查询词或其近义词

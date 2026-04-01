@@ -27,7 +27,7 @@ metadata:
 ```
 writing-workspace/styles/
 ├── my_style.json       # 主力风格档案（创作/润色读取的那一份）
-├── index.json          # 风格素材索引 [{id, source_title, author, analyzed_at}]
+├── index.jsonl          # 风格素材索引（JSONL 格式，每行一条 {id, source_title, author, analyzed_at}）
 └── entries/            # 每篇分析过的文章一条记录
     └── sty_xxx.json
 ```
@@ -83,13 +83,13 @@ writing-workspace/styles/
 ### 执行流程
 
 1. 确保 `./writing-workspace/styles/` 目录存在，不存在则创建（含 `entries/` 子目录）
-2. 如果 `index.json` 不存在，创建空数组 `[]`
+2. 如果 `index.jsonl` 不存在，创建空文件
 3. 通读全文，理解整体风格基调
 4. 逐一分析 12 个维度，每个维度一句话概括
 5. 提炼 2-3 个最值得借鉴的具体技巧
 6. 生成风格素材条目 JSON，ID 格式：`sty_YYYYMMDD_NNN`（NNN 为当日序号）
 7. 写入 `styles/entries/{id}.json`
-8. **立即更新 `styles/index.json`**——读取当前数组，追加新条目 `{id, source_title, author, analyzed_at}`，写回文件。这一步不能跳过，索引是其他技能检索的入口。
+8. **立即更新 `styles/index.jsonl`**——在文件末尾追加一行 JSON `{id, source_title, author, analyzed_at}`。这一步不能跳过，索引是其他技能检索的入口。
 9. 向用户展示分析结果（用可读的格式，不是 raw JSON）
 10. 询问用户："要把其中某些特征吸收到主力风格里吗？"
 

@@ -23,7 +23,7 @@ metadata:
 
 ```
 writing-workspace/materials/
-├── index.json        # 素材索引 [{id, summary, tags, type, source_title}]
+├── index.jsonl       # 素材索引（JSONL 格式，每行一条 {id, summary, tags, type, source_title}）
 └── entries/          # 每条素材一个 JSON 文件
     └── mat_xxx.json
 ```
@@ -69,7 +69,7 @@ writing-workspace/materials/
 
 为每条素材标注：
 
-- **tags**：2-5 个标签。标注前先读取现有 `index.json`，参考已有标签避免同义重复（比如已有"创业"就不要再用"初创"）。如果素材库为空，自由标注。
+- **tags**：2-5 个标签。标注前先读取现有 `index.jsonl`，参考已有标签避免同义重复（比如已有"创业"就不要再用"初创"）。如果素材库为空，自由标注。
 - **sentiment**：`positive`（正面肯定）/ `negative`（批判否定）/ `neutral`（中性陈述）/ `provocative`（挑衅引发思考）
 - **reusability**：`high`（几乎可以直接用）/ `medium`（需要适配语境）/ `low`（参考价值为主）
 
@@ -86,15 +86,15 @@ writing-workspace/materials/
 ## 执行流程
 
 1. 确保 `./writing-workspace/materials/` 目录存在，不存在则创建（含 `entries/` 子目录）
-2. 如果 `index.json` 不存在，创建空数组 `[]`
-3. 读取现有 `index.json`，了解已有标签和素材（用于去重和标签一致性）
+2. 如果 `index.jsonl` 不存在，创建空文件
+3. 读取现有 `index.jsonl`（逐行解析），了解已有标签和素材（用于去重和标签一致性）
 4. 通读全文，理解主题和结构
 5. 按语义单元拆解，每个单元生成一条素材
 6. 为每条素材标注类型、标签、情绪、可复用程度
 7. 如果是自写模式，执行额外步骤
 8. 素材 ID 格式：`mat_YYYYMMDD_NNN`（NNN 为当日序号，从现有索引中推算）
 9. 将每条素材写入 `materials/entries/{id}.json`
-10. **立即更新 `materials/index.json`**——读取当前数组，追加每条新素材的摘要 `{id, summary, tags, type, source_title, reusability}`，写回文件。索引是检索的入口，这一步不能跳过。
+10. **立即更新 `materials/index.jsonl`**——在文件末尾追加每条新素材的摘要，每条一行 JSON `{id, summary, tags, type, source_title, reusability}`。索引是检索的入口，这一步不能跳过。
 11. 向用户展示入库报告
 
 ## 素材条目 JSON 结构
@@ -124,17 +124,11 @@ writing-workspace/materials/
 
 ## 索引条目结构
 
-`index.json` 中每条记录只保留摘要信息，用于快速检索：
+`index.jsonl` 中每行一条记录，只保留摘要信息，用于快速检索：
 
-```json
-{
-  "id": "mat_20260327_001",
-  "summary": "一句话摘要",
-  "tags": ["AI", "创业"],
-  "type": "viewpoint",
-  "source_title": "原文标题",
-  "reusability": "high"
-}
+```jsonl
+{"id":"mat_20260327_001","summary":"一句话摘要","tags":["AI","创业"],"type":"viewpoint","source_title":"原文标题","reusability":"high"}
+{"id":"mat_20260327_002","summary":"另一条摘要","tags":["产品"],"type":"case","source_title":"原文标题","reusability":"medium"}
 ```
 
 ## 输出格式

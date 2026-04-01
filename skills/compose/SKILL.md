@@ -39,9 +39,9 @@ metadata:
 
 ### 2. 检索相关素材
 
-读取 `./writing-workspace/materials/index.json`。
+读取 `./writing-workspace/materials/index.jsonl`。
 
-- 如果文件存在且非空：按主题/标签匹配相关素材，读取匹配条目的完整 JSON
+- 如果文件存在且非空：逐行解析，按主题/标签匹配相关素材，读取匹配条目的完整 JSON
 - 如果文件不存在或为空：跳过，仅基于用户输入和自身知识写作
 
 ### 3. 确认输出场景
