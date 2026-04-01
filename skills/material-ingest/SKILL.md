@@ -24,7 +24,6 @@ metadata:
 ```
 writing-workspace/materials/
 ├── index.json        # 素材索引 [{id, summary, tags, type, source_title}]
-├── index.md          # 人类可读索引
 └── entries/          # 每条素材一个 JSON 文件
     └── mat_xxx.json
 ```
@@ -87,7 +86,7 @@ writing-workspace/materials/
 ## 执行流程
 
 1. 确保 `./writing-workspace/materials/` 目录存在，不存在则创建（含 `entries/` 子目录）
-2. 如果 `index.json` 不存在，创建空数组 `[]`；如果 `index.md` 不存在，创建带标题的空文件
+2. 如果 `index.json` 不存在，创建空数组 `[]`
 3. 读取现有 `index.json`，了解已有标签和素材（用于去重和标签一致性）
 4. 通读全文，理解主题和结构
 5. 按语义单元拆解，每个单元生成一条素材
@@ -96,8 +95,7 @@ writing-workspace/materials/
 8. 素材 ID 格式：`mat_YYYYMMDD_NNN`（NNN 为当日序号，从现有索引中推算）
 9. 将每条素材写入 `materials/entries/{id}.json`
 10. **立即更新 `materials/index.json`**——读取当前数组，追加每条新素材的摘要 `{id, summary, tags, type, source_title, reusability}`，写回文件。索引是检索的入口，这一步不能跳过。
-11. **立即更新 `materials/index.md`**——按日期倒序追加新条目。格式见下方"index.md 格式"小节。
-12. 向用户展示入库报告
+11. 向用户展示入库报告
 
 ## 素材条目 JSON 结构
 
@@ -139,21 +137,6 @@ writing-workspace/materials/
 }
 ```
 
-## index.md 格式
-
-```markdown
-# 素材库索引
-
-## 2026-03-27
-
-- **mat_20260327_001** [viewpoint] AI Agent 的核心价值不在于替代人，而在于扩展人的能力边界 `#AI` `#认知` — 来自《xxx》
-- **mat_20260327_002** [case] ...
-```
-
-按日期倒序排列，最新的在最上面。
-
----
-
 ## 输出格式
 
 入库完成后，向用户展示入库报告：
@@ -189,5 +172,6 @@ writing-workspace/materials/
 ## 注意事项
 
 - `content` 字段保留原文措辞，不要改写。素材的价值在于保留原始表达，改写是创作技能的工作。
+- **写入 JSON 时必须正确转义特殊字符**：`content` 和其他文本字段中的双引号 `"` 必须转义为 `\"`，反斜杠 `\` 转义为 `\\`，换行符转义为 `\n`。使用 Write 工具写入 JSON 时，确保字符串值中不包含未转义的双引号。
 - 如果文章过短（<200 字）或信息密度很低，直接告诉用户"这篇文章信息量较少，建议整篇保留作为参考而非拆解素材"。
 - 每条素材的 `summary` 要能独立理解，不依赖原文上下文。
