@@ -38,5 +38,5 @@ Accept one optional scope argument: `global` or `project`.
 
 ## Scope
 
-- `global`: scan `~/.agents/skills` and `${CODEX_HOME:-~/.codex}/skills`.
+- `global`: scan `~/.agents/skills` and `${CODEX_HOME:-$HOME/.codex}/skills`.
 - `project`: locate the Git root from the current directory, then scan `.agents/skills` and `.codex/skills` within it. Use the current directory when outside Git.
