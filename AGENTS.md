@@ -1,53 +1,26 @@
 # AGENTS.md
 
-## Project Overview
+## Repository
 
-A categorized collection following the [Agent Skills Specification](https://agentskills.io/specification).
+This repository contains composable skills organized by purpose:
 
-- `skills/writing/`: Chinese writing assistants. The workflow is **collect (style-extract, material-ingest) -> retrieve (material-retrieve) -> create (compose) -> polish (rewrite, title-gen)**. `rewrite-en2zh` is standalone.
+- `skills/writing/`: Simplified Chinese writing skills.
 - `skills/misc/`: General-purpose agent utilities.
 
-Skills are installed via `npx skills add simonwong/skills`.
+Each skill lives at `skills/<category>/<skill-name>/`. Keep its `SKILL.md` and supporting resources together. Category directories organize skills and must not contain a `SKILL.md`.
 
-## Architecture
+Before changing anything under `skills/writing/`, read `skills/writing/AGENTS.md` for the shared data contract, dependency graph, and writing-specific rules.
 
-Each skill lives in `skills/<category>/<skill-name>/`. A skill contains `SKILL.md` and only the resources its workflow needs. Category directories do not contain `SKILL.md`.
+## Working Rules
 
-### Shared Data Directory
+- Read the target skill and its local instructions before editing it.
+- Keep changes scoped to the requested skills. Preserve unrelated work.
+- Keep skills self-contained. Add supporting files only when the workflow needs them.
+- Preserve explicit-invocation settings in both `SKILL.md` and `agents/openai.yaml` when present.
+- Write agent-facing instructions as short, imperative steps. Keep final-state docs free of migration history and discarded approaches.
 
-All skills read/write a shared `./writing-workspace/` directory at runtime:
+## Validation
 
-```
-writing-workspace/
-├── styles/
-│   ├── my_style.json          # Primary style profile (used by compose, rewrite)
-│   ├── index.jsonl             # Style entry index
-│   └── entries/sty_*.json      # Individual style analyses
-├── materials/
-│   ├── index.jsonl             # Material entry index
-│   └── entries/mat_*.json      # Individual material entries
-└── drafts/                     # Saved article drafts
-```
-
-- Index files use **JSONL** format (one JSON object per line).
-- Entry IDs follow `sty_YYYYMMDD_NNN` / `mat_YYYYMMDD_NNN` patterns.
-- JSON text fields must properly escape `"`, `\`, and newlines.
-
-### Skill Dependency Graph
-
-- **style-extract** produces `styles/my_style.json` and `styles/entries/`.
-- **material-ingest** produces `materials/index.jsonl` and `materials/entries/`.
-- **material-retrieve** reads `materials/index.jsonl` + `materials/entries/`.
-- **compose** reads `styles/my_style.json` + `materials/index.jsonl` (auto-retrieves relevant materials).
-- **rewrite** reads `styles/my_style.json`.
-- **title-gen** reads `styles/my_style.json` (optional, for title pattern preferences).
-- **rewrite-en2zh** is standalone with no data dependencies.
-
-## Conventions
-
-- Writing skill content and user-facing output is in **Simplified Chinese**.
-- Writing skill front matter fields: `name`, `description`, `license`, `metadata.author`, `metadata.version`.
-- Version strings are quoted (e.g., `"1.1.0"`).
-- A writing skill's `description` doubles as trigger-phrase documentation and lists its Chinese activation phrases.
-- When modifying a writing skill's `SKILL.md`, bump its `metadata.version`.
-- Keep general-purpose skills self-contained and preserve their explicit invocation policy in both `SKILL.md` and `agents/openai.yaml` when present.
+- Validate every changed `SKILL.md` against the [Agent Skills Specification](https://agentskills.io/specification), allowing documented client-specific frontmatter extensions such as `disable-model-invocation`.
+- Check links and paths referenced by changed instructions.
+- Run `git diff --check` before committing.

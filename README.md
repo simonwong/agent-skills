@@ -1,93 +1,97 @@
 # Agent Skills
 
-按用途分组的 Agent Skills 集合。作者：[Simon Wong](https://github.com/simonwong)。
+一组日常使用、按用途分组的 Agent Skills。它们小、可编辑、可组合，不接管完整工作流；选择需要的 skill，装进自己的 agent 即可。
 
-技能规范详见 [Agent Skills Specification](https://agentskills.io/specification)。
+作者：[Simon Wong](https://github.com/simonwong)。技能格式遵循 [Agent Skills Specification](https://agentskills.io/specification)。
 
-## 安装
+## 安装（30 秒）
+
+使用 Bun：
 
 ```shell
-npx skills add simonwong/skills
+bunx skills add simonwong/skills
 ```
 
-安装器会发现各分组下的所有 skill，并让你选择需要安装的项目。
+或使用 npm：
 
-## Writing
+```shell
+npx skills@latest add simonwong/skills
+```
 
-围绕“收集 → 分析 → 创作 → 打磨”流程设计的中文写作辅助技能组。
+安装器会从 `skills/writing/` 和 `skills/misc/` 发现 skills，并让你选择要安装的项目和目标 agent。
 
-### rewrite-en2zh
+## 为什么有这些 Skills
 
-将英文内容重写为简体中文。采用 deverbalization 技巧：理解原意后脱离英文外壳，用中文自然表达。
+### 1. Agent 写得对，但不像你
 
-- 保留 Markdown 格式、代码块
-- 保留 AI/技术专有名词（Agent、OpenAI、Claude、API 等）
-- 目标：让读者感觉是中文母语者写的文章
+先用 `style-extract` 建立个人风格档案。`compose` 和 `rewrite` 会复用它，让创作和改稿保持同一种声音。
 
-### style-extract
+### 2. 好素材收过就丢
 
-分析文章的写作风格特征，提取风格维度存入风格素材库，融合多篇风格素材生成或更新主力风格档案。
+`material-ingest` 把文章拆成可复用的观点、数据、案例和金句；`material-retrieve` 按主题、标签、类型找回它们。
 
-- 适用于分析风格、提取写作风格、学习语气、吸收文风
-- 建议先分析 3-5 篇文章，建立主力风格档案
+### 3. 写作步骤散在不同提示词里
 
-### material-ingest
+Writing 组把流程拆成可组合的小技能：
 
-拆解文章，提取可复用的素材（观点、数据、案例、金句、类比、方法论），分类标注后存入素材库。
+`收集 -> 检索 -> 创作 -> 润色 -> 标题`
 
-- 适用于拆解素材、入库、收集文章、提取要点
-- 投喂文章即可自动提取有价值内容
+每个 skill 可独立使用，也可共享 `./writing-workspace/` 串成完整流程。
 
-### material-retrieve
+### 4. 有些 Skill 不该被 Agent 自动调用
 
-从素材库中按主题、标签、类型检索可复用的写作素材。
+`configure-skill-invocation` 扫描全局或当前项目的 skills，让你选择哪些改为仅显式调用，并一次性补齐 `SKILL.md` 和 Codex 的调用策略。
 
-- 适用于查找素材、检索素材库
-- 写作过程中需要支撑材料时可随时调用
+## Reference
 
-### compose
+Skills 分为两种调用方式：
 
-基于主题或参考文章进行中文创作。自动检索素材库、加载主力风格档案，产出符合个人风格的文章。
+- **Model-invoked**：任务匹配时，agent 可以自动调用；用户也可以直接调用。
+- **User-invoked**：只有用户显式输入 skill 名称时才调用，适合配置和编排动作。
 
-- 支持公众号、Twitter、小红书、博客等多种场景
-- 给一个主题或一篇参考文章即可开始创作
+### Writing
 
-### rewrite
+中文写作技能。均为 model-invoked。
 
-润色和改写文章，去除 AI 感，按主力风格档案调整文风。先诊断问题再改写。
+| Skill | 用途 |
+| --- | --- |
+| `style-extract` | 分析文章风格，建立或更新个人风格档案。 |
+| `material-ingest` | 提取观点、数据、案例、金句等素材并入库。 |
+| `material-retrieve` | 按主题、标签、类型检索素材库。 |
+| `compose` | 结合主题、素材库和个人风格创作中文内容。 |
+| `rewrite` | 诊断并改写文章，去除 AI 感，统一个人文风。 |
+| `title-gen` | 生成多种策略、适配不同平台的候选标题。 |
+| `rewrite-en2zh` | 理解英文原意后，用自然的简体中文重新表达。 |
 
-- 适用于润色、改稿、去 AI 感、打磨文风
-- 文章读起来不自然时即可使用
+推荐顺序：
 
-### title-gen
+1. 用 `style-extract` 分析 3–5 篇文章。
+2. 用 `material-ingest` 积累素材。
+3. 用 `compose` 创作。
+4. 用 `rewrite` 润色。
+5. 用 `title-gen` 生成标题。
 
-为文章生成多个候选标题，覆盖不同策略类型，标注适用平台。
+### Misc
 
-- 覆盖多种标题策略（悬念、数字、痛点、观点等）
-- 完成创作后建议使用
+通用工具。目前包含 1 个 user-invoked skill：
 
-## 使用流程建议
+| Skill | 用途 | 调用示例 |
+| --- | --- | --- |
+| `configure-skill-invocation` | 选择全局或项目 skills，将其改为仅显式调用。 | `$configure-skill-invocation global` / `$configure-skill-invocation project` |
 
-1. 用 `style-extract` 分析 3-5 篇文章建立主力风格
-2. 用 `material-ingest` 积累素材库
-3. 用 `compose` 创作文章
-4. 用 `rewrite` 润色去 AI 感
-5. 用 `title-gen` 生成标题
+不传 `global` 或 `project` 时，skill 会先询问作用范围，再列出候选项供选择。
 
-所有技能共享 `./writing-workspace/` 数据目录
-
-## Misc
-
-### configure-skill-invocation
-
-扫描全局或当前项目的 skills，让用户选择哪些 skill 需要改为仅显式调用，然后一次性补齐 Codex 调用策略。
+## 仓库结构
 
 ```text
-$configure-skill-invocation global
-$configure-skill-invocation project
+skills/
+├── writing/
+│   └── <writing-skill>/
+└── misc/
+    └── configure-skill-invocation/
 ```
 
-不传范围时，skill 会先询问使用 `global` 还是 `project`。
+每个叶子目录都是一个可独立安装的 skill；分组目录本身不包含 `SKILL.md`。
 
 ## Find Me
 
