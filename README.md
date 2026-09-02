@@ -1,16 +1,20 @@
-# Writing Skills
+# Agent Skills
 
-一套围绕"收集 → 分析 → 创作 → 打磨"流程设计的写作辅助技能组。作者：[Simon Wong](https://github.com/simonwong)。
+按用途分组的 Agent Skills 集合。作者：[Simon Wong](https://github.com/simonwong)。
 
 技能规范详见 [Agent Skills Specification](https://agentskills.io/specification)。
 
 ## 安装
 
 ```shell
-npx skills add simonwong/writing-skills
+npx skills add simonwong/skills
 ```
 
-## Skills
+安装器会发现各分组下的所有 skill，并让你选择需要安装的项目。
+
+## Writing
+
+围绕“收集 → 分析 → 创作 → 打磨”流程设计的中文写作辅助技能组。
 
 ### rewrite-en2zh
 
@@ -71,6 +75,19 @@ npx skills add simonwong/writing-skills
 5. 用 `title-gen` 生成标题
 
 所有技能共享 `./writing-workspace/` 数据目录
+
+## Misc
+
+### configure-skill-invocation
+
+扫描全局或当前项目的 skills，让用户选择哪些 skill 需要改为仅显式调用，然后一次性补齐 Codex 调用策略。
+
+```text
+$configure-skill-invocation global
+$configure-skill-invocation project
+```
+
+不传范围时，skill 会先询问使用 `global` 还是 `project`。
 
 ## Find Me
 

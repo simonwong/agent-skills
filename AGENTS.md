@@ -2,13 +2,16 @@
 
 ## Project Overview
 
-A collection of Chinese writing-assistant skills following the [Agent Skills Specification](https://agentskills.io/specification). The workflow is: **collect (style-extract, material-ingest) -> retrieve (material-retrieve) -> create (compose) -> polish (rewrite, title-gen)**. There is also a standalone `rewrite-en2zh` skill for English-to-Chinese rewriting.
+A categorized collection following the [Agent Skills Specification](https://agentskills.io/specification).
 
-Skills are installed via `npx skills add simonwong/writing-skills`.
+- `skills/writing/`: Chinese writing assistants. The workflow is **collect (style-extract, material-ingest) -> retrieve (material-retrieve) -> create (compose) -> polish (rewrite, title-gen)**. `rewrite-en2zh` is standalone.
+- `skills/misc/`: General-purpose agent utilities.
+
+Skills are installed via `npx skills add simonwong/skills`.
 
 ## Architecture
 
-Each skill lives in `skills/<skill-name>/` and contains a single `SKILL.md` file that defines the skill's metadata (YAML front matter) and full behavioral prompt (Markdown body). There is no build step, no runtime code, and no tests — the entire project is structured Markdown.
+Each skill lives in `skills/<category>/<skill-name>/`. A skill contains `SKILL.md` and only the resources its workflow needs. Category directories do not contain `SKILL.md`.
 
 ### Shared Data Directory
 
@@ -42,8 +45,9 @@ writing-workspace/
 
 ## Conventions
 
-- All skill content and user-facing output is in **Simplified Chinese**.
-- SKILL.md front matter fields: `name`, `description`, `license`, `metadata.author`, `metadata.version`.
+- Writing skill content and user-facing output is in **Simplified Chinese**.
+- Writing skill front matter fields: `name`, `description`, `license`, `metadata.author`, `metadata.version`.
 - Version strings are quoted (e.g., `"1.1.0"`).
-- The `description` field doubles as trigger-phrase documentation — it lists the Chinese phrases that should activate the skill.
-- When modifying a skill's `SKILL.md`, bump its `metadata.version` in the YAML front matter.
+- A writing skill's `description` doubles as trigger-phrase documentation and lists its Chinese activation phrases.
+- When modifying a writing skill's `SKILL.md`, bump its `metadata.version`.
+- Keep general-purpose skills self-contained and preserve their explicit invocation policy in both `SKILL.md` and `agents/openai.yaml` when present.

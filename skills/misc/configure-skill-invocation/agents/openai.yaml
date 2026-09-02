@@ -1,0 +1,7 @@
+interface:
+  display_name: "Configure Skill Invocation"
+  short_description: "批量将选中的全局或项目 skill 设置为仅显式调用"
+  default_prompt: "使用 $configure-skill-invocation 选择并设置全局或项目 skill 的调用策略。"
+
+policy:
+  allow_implicit_invocation: false
