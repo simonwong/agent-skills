@@ -1,0 +1,7 @@
+interface:
+  display_name: "Configure Skill Invocation"
+  short_description: "Make selected global or project skills explicit-only"
+  default_prompt: "Use $configure-skill-invocation to choose global or project skills and make them explicit-only."
+
+policy:
+  allow_implicit_invocation: false
