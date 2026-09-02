@@ -18,7 +18,7 @@ bunx skills add simonwong/skills
 npx skills@latest add simonwong/skills
 ```
 
-安装器会从 `skills/writing/` 和 `skills/misc/` 发现 skills，并让你选择要安装的项目和目标 agent。
+安装器会发现各分类目录下的 skills，并让你选择要安装的项目和目标 agent。分类只用于组织源码；当前 `skills` CLI 的选择列表会平铺显示所有 skill。
 
 ## 为什么有这些 Skills
 
@@ -71,6 +71,14 @@ Skills 分为两种调用方式：
 4. 用 `rewrite` 润色。
 5. 用 `title-gen` 生成标题。
 
+### Engineering
+
+工程质量技能。均为 model-invoked。
+
+| Skill | 用途 |
+| --- | --- |
+| `code-simplifier` | 简化最近修改的代码，提高可读性、一致性和可维护性，同时保持行为不变。 |
+
 ### Misc
 
 通用工具。目前包含 1 个 user-invoked skill：
@@ -87,6 +95,8 @@ Skills 分为两种调用方式：
 skills/
 ├── writing/
 │   └── <writing-skill>/
+├── engineering/
+│   └── code-simplifier/
 └── misc/
     └── configure-skill-invocation/
 ```

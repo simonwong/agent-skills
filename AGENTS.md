@@ -5,6 +5,7 @@
 This repository contains composable skills organized by purpose:
 
 - `skills/writing/`: Simplified Chinese writing skills.
+- `skills/engineering/`: Code quality and engineering workflow skills.
 - `skills/misc/`: General-purpose agent utilities.
 
 Each skill lives at `skills/<category>/<skill-name>/`. Keep its `SKILL.md` and supporting resources together. Category directories organize skills and must not contain a `SKILL.md`.
