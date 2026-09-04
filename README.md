@@ -81,13 +81,14 @@ Skills 分为两种调用方式：
 
 ### Misc
 
-通用工具。目前包含 1 个 user-invoked skill：
+通用工具。目前包含 2 个 user-invoked skill：
 
 | Skill | 用途 | 调用示例 |
 | --- | --- | --- |
 | `configure-skill-invocation` | 选择全局或项目 skills，将其改为仅显式调用。 | `$configure-skill-invocation global` / `$configure-skill-invocation project` |
+| `fable-orchestrate` | 主线程只做需求澄清、方案拆解、任务分发、结果验收和难题攻关，实现类工作下发给 subagent。 | `/fable-orchestrate` / `/fable-orchestrate gpt` / `/fable-orchestrate herdr codex` |
 
-不传 `global` 或 `project` 时，skill 会先询问作用范围，再列出候选项供选择。
+`configure-skill-invocation` 不传 `global` 或 `project` 时，会先询问作用范围，再列出候选项供选择。`fable-orchestrate` 仅供 Claude Code 使用，不传参数时默认用 `opus`。`gpt` 和 `herdr <kind>` 均为可选执行路线：选择 `gpt` 时才需要 `codex:codex-rescue`；选择 `herdr <kind>` 时才需要 Herdr-managed session 与 `herdr` skill。
 
 ## 仓库结构
 
@@ -98,7 +99,8 @@ skills/
 ├── engineering/
 │   └── code-simplifier/
 └── misc/
-    └── configure-skill-invocation/
+    ├── configure-skill-invocation/
+    └── fable-orchestrate/
 ```
 
 每个叶子目录都是一个可独立安装的 skill；分组目录本身不包含 `SKILL.md`。
